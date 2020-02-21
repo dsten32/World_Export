@@ -1,0 +1,26 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.coca_cola_truck.wheels": {
+			"states": {
+				"default": {
+					"variables": {
+						"moving_speed": {
+							"input": "query.modified_move_speed"
+						}
+					},
+					"animations": [
+						"wheels_turn",
+						{
+							"wheels": "variable.moving_speed"
+						},
+						"dashboard",
+						{
+							"dashboard": "variable.moving_speed"
+						}
+					]
+				}
+			}
+		}
+	}
+}

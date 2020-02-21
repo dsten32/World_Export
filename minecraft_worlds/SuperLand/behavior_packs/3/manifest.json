@@ -1,0 +1,25 @@
+{
+  "format_version": 1,
+  "header": {
+    "name": "Coca Cola Truck BP",
+    "description": "Coca Cola Truck Addon by Nogard\nTwitter: @Nogard_YT\nYouTube: Nogard",
+    "uuid": "72eb8851-ec99-4b59-8505-c9aecc4ed4ab",
+    "platform_locked": false,
+    "min_engine_version": [1, 8, 0],
+    "version": [0, 0, 1]
+  },
+  "modules": [
+    {
+      "description": "Coca Cola Truck Addon by Nogard\nTwitter: @Nogard_YT\nYouTube: Nogard",
+      "type": "data",
+      "uuid": "10307d88-f7ae-4ab8-8c4a-dbeea4f6df2f",
+      "version": [0, 0, 1]
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "a2834a01-300c-472e-b014-99ad771b6ff7",
+      "version": [0, 0, 1]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "format_version": "1.8.0",
+  "minecraft:client_entity": {
+   "description": {
+    "identifier": "coca_cola:truck",
+    "materials": {
+     "default": "spider"
+    },
+    "textures": {
+      "default": "textures/entity/truck/truck"
+    },
+    "geometry": {
+     "default": "geometry.coca_cola_truck"
+    },
+    "animations": {
+      "wheels": "animation.coca_cola_truck.wheels",
+      "wheels_turn": "animation.coca_cola_truck.wheels_turn",
+      "dashboard": "animation.mech_car.dashboard"
+    },
+    "animation_controllers": [
+     {
+      "wheels_controller": "controller.animation.coca_cola_truck.wheels"
+     }
+    ],
+    "render_controllers": [ "controller.render.default" ],
+    "spawn_egg": {
+     "texture": "coca_cola_truck",
+     "texture_index": 0
+   }
+  }
+ }
+}

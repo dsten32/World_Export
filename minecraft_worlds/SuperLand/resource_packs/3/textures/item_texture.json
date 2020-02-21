@@ -1,0 +1,15 @@
+{
+  "resource_pack_name": "Coca Cola Truck RP",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "coca_cola_truck": {
+      "textures": "textures/items/coca_cola_truck"
+    },
+    "coca_cola_trailer": {
+      "textures": "textures/items/coca_cola_trailer"
+    },
+    "potion_bottle_heal": {
+      "textures": "textures/items/coke"
+    }
+  }
+}

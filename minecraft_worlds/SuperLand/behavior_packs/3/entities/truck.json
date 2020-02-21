@@ -1,0 +1,88 @@
+{
+    "format_version": "1.8.0",
+    "minecraft:entity": {
+      "description": {
+        "identifier": "coca_cola:truck",
+        "is_spawnable": true,
+        "is_summonable": true,
+        "is_experimental": false
+      },
+  
+      "components": {
+        "minecraft:type_family": {
+          "family": [ "coca_cola_truck" ]
+        },
+        "minecraft:movement": {
+          "value": 0.21
+        },
+        "minecraft:health": {
+          "value": 14,
+          "max": 14
+        },  
+        "minecraft:navigation.walk": {
+          "can_float": false,
+          "avoid_water": true,
+          "avoid_damage_blocks": true
+        },
+        "minecraft:movement.basic": {
+        },
+        "minecraft:jump.static": {
+        },
+          "minecraft:scale": {
+          "value": 1.0
+        },
+        "minecraft:fire_immune": true,
+        "minecraft:breathable": {
+          "breathesAir": true,
+          "breathesWater": true
+        },
+        "minecraft:fall_damage": {
+          "value": 0.0
+        },
+        "minecraft:knockback_resistance": {
+          "value": 10.0
+        },
+        "minecraft:rideable": {
+            "seat_count": 4,
+            "family_types": [
+              "player"
+            ],
+            "interact_text": "Drive",
+            "seats": [
+              {
+                "position": [ 0.43, 1.25, 1.1 ]
+              },
+              { 
+                "position": [ -0.43, 1.25, 1.1 ]
+              },
+              {
+                "position": [ 0.5, 1.25, -0.69 ]
+              },
+              {
+                "position": [ -0.5, 1.25, -0.69 ]
+              }
+           ]
+        },
+        "minecraft:is_saddled": {
+        },
+        "minecraft:input_ground_controlled": {
+        },
+        "minecraft:behavior.player_ride_tamed": {
+        },
+        "minecraft:collision_box": {
+          "width": 2.0,
+          "height": 1.5
+        },
+        "minecraft:is_chested": {},
+        "minecraft:inventory": {
+          "container_type": "hopper",
+          "restrict_to_owner": false
+        },
+        "minecraft:loot": {
+          "table": "loot_tables/entities/truck.json"
+        },
+        "minecraft:nameable": {},
+        "minecraft:physics": {}
+      }
+    }
+  }

@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=Ciężarówka Coca-Cola
+item.spawn_egg.entity.coca_cola:utrailer.name=Naczepa Coca-Cola
+entity.coca_cola:truck.name=Ciężarówka Coca-Cola
+entity.coca_cola:utrailer.name=Naczepa Coca-Cola

@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=Coca-Cola-vrachtwagen
+item.spawn_egg.entity.coca_cola:utrailer.name=Coca-Cola oplegger
+entity.coca_cola:truck.name=Coca-Cola-vrachtwagen
+entity.coca_cola:utrailer.name=Coca-Cola oplegger

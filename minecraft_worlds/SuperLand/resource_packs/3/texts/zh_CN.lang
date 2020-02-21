@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=可口可乐卡车
+item.spawn_egg.entity.coca_cola:utrailer.name=可口可乐半挂车
+entity.coca_cola:truck.name=可口可乐卡车
+entity.coca_cola:utrailer.name=可口可乐半挂车

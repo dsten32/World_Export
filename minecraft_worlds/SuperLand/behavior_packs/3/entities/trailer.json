@@ -1,0 +1,87 @@
+{
+    "format_version": "1.8.0",
+    "minecraft:entity": {
+      "description": {
+        "identifier": "coca_cola:utrailer",
+        "is_spawnable": true,
+        "is_summonable": true,
+        "is_experimental": false
+      },
+  
+      "components": {
+        "minecraft:type_family": {
+          "family": [ "coca_cola_trailer" ]
+        },
+        "minecraft:behavior.nearest_attackable_target": {
+          "priority": 2,
+          "entity_types": [
+            {
+              "filters": {
+                "any_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "coca_cola_truck"
+                  }
+                ]
+              },
+              "max_dist": 6
+            }
+          ],
+          "must_see": true
+        },
+        "minecraft:behavior.ranged_attack": {
+          "attack_interval_min": 300,
+          "attack_interval_max": 700,
+          "attack_radius": 2.2
+        },
+        "minecraft:movement": {
+          "value": 0.468
+        },
+        "minecraft:health": {
+          "value": 14,
+          "max": 14
+        },
+        "minecraft:navigation.walk": {
+          "can_float": false,
+          "avoid_water": true,
+          "avoid_damage_blocks": true
+        },
+        "minecraft:movement.basic": {
+        },
+        "minecraft:jump.static": {
+        },
+        "minecraft:scale": {
+          "value": 1.0
+        },
+        "minecraft:fire_immune": true,
+        "minecraft:breathable": {
+          "breathesAir": true,
+          "breathesWater": true
+        },
+        "minecraft:fall_damage": {
+          "value": 0.0
+        },
+        "minecraft:knockback_resistance": {
+          "value": 10.0
+        },
+        "minecraft:input_ground_controlled": {
+        },
+        "minecraft:collision_box": {
+          "width": 2.0,
+          "height": 3.5
+        },
+        "minecraft:is_chested": {},
+        "minecraft:inventory": {
+          "container_type": "container",
+          "inventory_size": 27,
+          "restrict_to_owner": false
+        },
+        "minecraft:loot": {
+          "table": "loot_tables/entities/trailer.json"
+        },
+        "minecraft:nameable": {},
+        "minecraft:physics": {}
+      }
+    }
+  }

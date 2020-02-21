@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=Camión de Coca-Cola
+item.spawn_egg.entity.coca_cola:utrailer.name=Semirremolque Coca-Cola
+entity.coca_cola:truck.name=Camión de Coca-Cola
+entity.coca_cola:utrailer.name=Semirremolque Coca-Cola

@@ -1,0 +1,18 @@
+{
+  "entity_sounds": {
+    "entities": {
+      "coca_cola:truck": {
+        "volume": 1.0,
+        "pitch": [ 0.8, 1.2 ],
+        "events": {
+          "step": {
+            "sound": "coca_cola.truck.engine",
+            "volume": 0.5,
+            "pitch": 1.1
+          }
+        }
+      }
+    }
+  }
+}
+

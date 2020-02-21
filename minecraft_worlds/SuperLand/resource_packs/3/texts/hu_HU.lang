@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=Coca-Cola teherautó
+item.spawn_egg.entity.coca_cola:utrailer.name=Coca-Cola félpótkocsi
+entity.coca_cola:truck.name=Coca-Cola teherautó
+entity.coca_cola:utrailer.name=Coca-Cola félpótkocsi

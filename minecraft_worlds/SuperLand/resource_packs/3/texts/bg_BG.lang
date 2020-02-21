@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=Coca-Cola камион
+item.spawn_egg.entity.coca_cola:utrailer.name=Coca-Cola полуремарке
+entity.coca_cola:truck.name=Coca-Cola камион
+entity.coca_cola:utrailer.name=Coca-Cola полуремарке

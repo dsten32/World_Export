@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=Coca-Cola kuorma
+item.spawn_egg.entity.coca_cola:utrailer.name=Coca-Cola puoliperävaunun
+entity.coca_cola:truck.name=Coca-Cola kuorma
+entity.coca_cola:utrailer.name=Coca-Cola puoliperävaunun

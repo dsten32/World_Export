@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=Coca-Cola-LKW
+item.spawn_egg.entity.coca_cola:utrailer.name=Coca-Cola-Sattelzug
+entity.coca_cola:truck.name=Coca-Cola-LKW
+entity.coca_cola:utrailer.name=Coca-Cola-Sattelzug

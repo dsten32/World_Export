@@ -1,0 +1,18 @@
+{
+  "format_version": 1,
+  "header": {
+    "description": "car replacing witch
+    by dragek pl",
+    "name": "car",
+    "uuid": "06fd06fd-dc30-4a52-8d2f-79bf4620c00a",
+    "version": [0, 0, 1]
+  },
+  "modules": [
+    {
+      "description": "car replacing witch by dragek pl",
+      "type": "resources",
+      "uuid": "4a8c4ed2-9823-4fc5-a820-174f37af2979",
+      "version": [0, 0, 1]
+    }
+  ]
+}

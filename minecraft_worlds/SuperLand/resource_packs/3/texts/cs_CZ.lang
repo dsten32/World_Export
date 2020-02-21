@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=Coca-Cola kamion
+item.spawn_egg.entity.coca_cola:utrailer.name=Coca-Cola návěs
+entity.coca_cola:truck.name=Coca-Cola kamion
+entity.coca_cola:utrailer.name=Coca-Cola návěs

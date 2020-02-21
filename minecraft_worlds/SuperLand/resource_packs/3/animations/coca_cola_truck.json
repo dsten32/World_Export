@@ -1,0 +1,77 @@
+{
+	"format_version": "1.10.0",
+	"animations": {
+		"animation.coca_cola_truck.wheels": {
+			"loop": true,
+			"animation_length": 0.32,
+			"bones": {
+				"wheel0": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.08": [90, 0, 0],
+						"0.16": [180, 0, 0],
+						"0.24": [270, 0, 0],
+						"0.32": [360, 0, 0]
+					}
+				},
+				"wheel1": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.08": [90, 0, 0],
+						"0.16": [180, 0, 0],
+						"0.24": [270, 0, 0],
+						"0.32": [360, 0, 0]
+					}
+				},
+				"wheels1": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.08": [90, 0, 0],
+						"0.16": [180, 0, 0],
+						"0.24": [270, 0, 0],
+						"0.32": [360, 0, 0]
+					}
+				},
+				"wheels2": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.08": [90, 0, 0],
+						"0.16": [180, 0, 0],
+						"0.24": [270, 0, 0],
+						"0.32": [360, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.coca_cola_truck.wheels_turn": {
+			"loop": true,
+			"bones": {
+				"wheel0": {
+					"rotation": [0, "Math.max(-20, Math.min(20,query.yaw_speed * 0.5))", 0]
+				},
+				"wheel1": {
+					"rotation": [0, "Math.max(-20, Math.min(20,query.yaw_speed * 0.5))", 0]
+				},
+				"steering_wheel": {
+					"rotation": [0, 0, "Math.max(-40, Math.min(40,query.yaw_speed * 0.5))*-1"]
+				}
+			}
+		},
+		"animation.mech_car.dashboard": {
+			"loop": true,
+			"animation_length": 0.35,
+			"bones": {
+				"hand0": {
+					"rotation": {
+						"0.1": [0, 0, -355],
+						"0.15": [0, 0, -350],
+						"0.20": [0, 0, -355],
+						"0.25": [0, 0, -350],
+						"0.30": [0, 0, -355],
+						"0.35": [0, 0, -350]
+					}
+				}
+			}
+		}
+	}
+}

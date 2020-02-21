@@ -1,0 +1,4 @@
+item.spawn_egg.entity.coca_cola:truck.name=코카콜라 트럭
+item.spawn_egg.entity.coca_cola:utrailer.name=코카콜라 세미 트레일러
+entity.coca_cola:truck.name=코카콜라 트럭
+entity.coca_cola:utrailer.name=코카콜라 세미 트레일러
