@@ -1,11 +1,13 @@
+import re
+import unicodedata
 
 def get_world_name(file):
-    """open the levelname.txt, and read the value"""
+    """open the levelname.txt, and read the value, replace and font modifiers and return string"""
     with open(file, 'r') as f:
         world_name = f.read()
-        return world_name
+        return re.sub('Â§.', '', world_name)
 
-
+# can't just change levelname.txt need to be able to open, read and write to level.dat (and level.dat_old?)
 def change_world_name(file, name):
     """open the levelname.txt, and replace the value"""
     with open(file, 'w') as f:
