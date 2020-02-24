@@ -6,29 +6,16 @@ import re
 from datetime import datetime
 
 
-# loadfile = np.fromfile('level.dat')
-
-# loadtext = np.loadtxt('level.dat')
-# datContent = [i.strip().split() for i in open("level.dat").readlines()]
-#
-# datContent = pd.read_csv('level.dat')
-# open the level.dat and read each line. still need to correct some characters that
-# are not correctly formatting to hex eg Ã, Ï, ], Í, Ì
-# for i in open("levelS.dat").readlines():
-#     print(i.split())
-
-
 # print(datContent)
 def get_lastPlayed(path):
-    print("last played function dir:", os.getcwd())
-    print(join(os.getcwd(),path))
+    # print("last played function dir:", os.getcwd())
+    # print(join(os.getcwd(), path))
     """open level.dat, find the 4 chars after LastPlayed and convert to datetime and return"""
-    with open(join(os.getcwd(),path), 'r') as level:
+    with open(join(os.getcwd(), path), 'r') as level:
         file = re.sub('\n', '', level.read())
 
-
         last_played = re.search(r'(?<=LastPlayed).{4}', file).group(0)
-        print("from level.dat got value:", last_played)
+        # print("from level.dat got value:", last_played)
 
         hexarr = []
         for c in last_played:
@@ -39,79 +26,42 @@ def get_lastPlayed(path):
 
         return timestamp
 
-def get_levelTags(path):
-    """get all the level.dat info that needs to be a world tag and return a list, individual functions will get each tag? or should combine to one? opening and closing the file for each seems dumb"""
-    return list(get_experimental(path), get_gametype(path), get_pvp(path), get_multiplayergame(path))
-    pass
-
-
-
-
-
 
 def get_alltags(path):
     """open level.dat and do searches for all tags, return list of tags"""
-
-    with open(join(os.getcwd(),path), 'r') as level:
-    	# get experimental tag
+    with open(join(os.getcwd(), path), 'r') as level:
+        # read in level.dat file, remove any newline chars so the re.search will work
         file = re.sub('\n', '', level.read())
-		
-        is_experimental = re.search(r'(?<=experimentalgameplay).{1}', file).group(0)
-        print("from level.dat got experimental value:", is_experimental)
-		
-        experimental_tag = "Experimental" if experimental == 1 else None
-        
-        # get gametype tag
-        gametype = re.search(r'(?<=GameType).{1}', file).group(0)
-        print("from level.dat got gametype value:", gametype)
 
-        gametype_tag = "survival" if gametype == 0 else "creative" if gametype == 1 else "adventure" if gametype == 2 else None
-		
-        # get multiplayer tag
-        multiplayer = re.search(r'(?<=MultiplayerGame).{1}', file).group(0)
-        print("from level.dat got multiplayer value:", multiplayer)
+        # get experimental tag hex value, via translating to character ord,
+        # then to hex value then strip 0x off left side and casting to int using base 16
+        is_experimental_hex = re.search(r'(?<=experimentalgameplay).{1}', file).group(0)
+        is_experimental = 0 if is_experimental_hex == '\x00' else int(hex(ord(is_experimental_hex)).lstrip("0x"), 16)
+        experimental_tag = "Experimental" if is_experimental == 1 else None
+        # print("from "+path+" got experimental value:", experimental_tag)
 
-        multiplayer_tag = "multiplayer" if multiplayer == 1 else None
-		
-        # get pvp tag
-        pvp = re.search(r'(?<=pvp).{1}', file).group(0)
-        print("from level.dat got pvp value:", pvp)
+        # get gametype tag hex value, via translating to character ord,
+        # then to hex value then strip 0x off left side and casting to int using base 16
+        game_type_hex = re.search(r'(?<=GameType).{1}', file).group(0)
+        gametype = 0 if game_type_hex == '\x00' else int(hex(ord(game_type_hex)).lstrip("0x"), 16)
+        gametype_tag = "Survival" if gametype == 0 else "creative" if gametype == 1 else "adventure" if gametype == 2 else None
+        # print("from "+path+" got gametype value:", gametype_tag)
 
-        pvp_tag = "pvp" if pvp == 1 else None
-        
+        # get multiplayer tag hex value, via translating to character ord,
+        # then to hex value then strip 0x off left side and casting to int using base 16
+        multiplayer_hex = re.search(r'(?<=MultiplayerGame).{1}', file).group(0)
+        multiplayer = 0 if multiplayer_hex == '\x00' else int(hex(ord(multiplayer_hex)).lstrip("0x"), 16)
+        multiplayer_tag = "Multiplayer" if multiplayer == 1 else None
+        # print("from "+path+" got multiplayer value:", multiplayer_tag)
+
+        # get pvp tag hex value, via translating to character ord,
+        # then to hex value then strip 0x off left side and casting to int using base 16
+        pvp_hex = re.search(r'(?<=pvp).{1}', file).group(0)
+        pvp = 0 if pvp_hex == '\x00' else int(hex(ord(pvp_hex)).lstrip("0x"), 16)
+        pvp_tag = "PvP" if pvp == 1 else None
+        # print("from "+path+" got pvp value:", pvp_tag)
+
+        # print("all together now:", list((experimental_tag, gametype_tag, multiplayer_tag, pvp_tag)))
         # return list of tags after filtering Nones
-    return list(filter(None, list(experimental_tag, gametype_tag, multiplayer_tag, pvp_tag)))
+    return list(filter(None, list((experimental_tag, gametype_tag, multiplayer_tag, pvp_tag))))
 
-
-
-
-
-
-#individual functions, test above and delete these
-def get_experimental(path):
-    """open level.dat, find the char after experimentalgameplay and return "Experimental" if = 1"""
-    with open(join(os.getcwd(),path), 'r') as level:
-        file = re.sub('\n', '', level.read())
-
-
-        experimental = re.search(r'(?<=experimentalgameplay).{1}', file).group(0)
-        print("from level.dat got value:", experimental)
-
-    return "Experimental" if experimental == 1 else None
-        
-        
-def get_gametype(path):
-    """open level.dat, find the char after GameType and return 0="survival", 1="creative", 2="adventure" """
-    pass
-    
-    
-
-def get_multiplayergame(path):
-    """open level.dat, find the char after MultiplayerGame and return 0=None, 1="multiplayer" """
-    pass 
-    
-    
-def get_pvp(path):
-    """open level.dat, find the char after pvp return 0=None, 1="pvp" """
-    pass 
-    

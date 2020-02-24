@@ -34,12 +34,12 @@ def getWorlds():
                     for line in params:
                         if line.startswith('TAGS='):
                             # tags = params.readline()
-                            tags = [tag for tag in line[line.find('[')+1:line.find(']')].split(',')]
+                            tags = [tag.strip() for tag in line[line.find('[')+1:line.find(']')].split(',')]
                             world_obj.tags.extend(tags)
                             # break
 			
             # add level.dat values to world_obj tag list
-            world_obj.tags.extend(get_alltags(join(*[world_dirName, foldername])))
+            world_obj.tags.extend(get_alltags(join(*[world_dirName, foldername, level_dat_file])))
             
             #todo add the world directory name as an instance variable, will use later for getting the image
             world_obj.dir = foldername
@@ -81,7 +81,7 @@ def getArchived():
     archived_worlds_list = []
 
 	#todo open zipfile and read level.dat for tags and lastplayed as for get_worlds, also for the world icon image
-    # potentially turn into a world obj? would make gui more consistent between the two trees etc.
+    #todo turn into a world obj would make gui more consistent between the two trees etc.
     for foldername in os.listdir(world_dirName):
         """gets the contents of the world dir and creates world objects
         need to make created and modified times to account for daylight savings"""

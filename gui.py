@@ -5,12 +5,14 @@ from os.path import join
 from worlds import getWorlds, getArchived
 import archive_world as aw
 
-#todo, turn this into a def, put all the gui setup into the __main__ and group the related functions, 
+#todo, turn this into a def/class or something, put all the gui setup into the __main__ and group the related functions,
 # check if a mangaer_params.ini exists and if not prompt user for worldsave path and write to new file,
 # use this full path for all bits that need a path.
 # if exists, read path an use etc.
 
 # set up some useful variables to be used elsewhere:
+# don't think having this tag list here is a great idea, but we'll see if it works Todo
+tag_filter_list = []
 # list of loaded worlds
 loaded_world_list = getWorlds()
 #list of archived worlds
@@ -26,15 +28,19 @@ def showLoadedTree():
     for world in loaded_worlds:
         world_tags.extend(world.tags)
 
-    world_tags = list(dict.fromkeys(world_tags))
-    print(world_tags)
+    world_tags = sorted(list(dict.fromkeys(world_tags)))
+    # print(world_tags)
+    #set starting x coordinate for tag buttons
+    button_x_coord = 0.02
 
-    button_x_coord = 0.2
     for tag in world_tags:
-        button = tk.Button(root, text=tag, bg="grey", fg="black", width=6)#, command=lambda: add_tag(tag))
+        print(tag)
+        button = tk.Button(root, text=tag, bg="grey", fg="black", width=10)
+        button['command'] = lambda button=button: add_tag_to_filter_list(button)
+        # button.config(command=lambda: add_tag_to_filter_list(tag))
         button.pack()
-        button.place(relx=button_x_coord + 0.1, rely=0.1)
-        button_x_coord+=0.1
+        button.place(relx=button_x_coord, rely=0.12)
+        button_x_coord+=0.08
 
 
     for world in loaded_worlds:
@@ -57,7 +63,72 @@ def showArchivedTree():
                         values=("na",
                                 world[1]))
 
-def add_tag(tag):
+def add_tag_to_filter_list(button):
+    """intended to add the tag for the pressed button to the list, then call filter def?"""
+    tag_filter_list.append(button['text'])
+    button.config(relief='sunken')
+    button['command'] = lambda button=button: remove_tag_from_filter_list(button)
+    filter_on_tag()
+
+def remove_tag_from_filter_list(button):
+    """intended to remove tag from list when button is deactivated"""
+    tag_filter_list.remove(button['text'])
+    button.config(relief='raised')
+    button['command'] = lambda button=button: add_tag_to_filter_list(button)
+    filter_on_tag()
+
+# taken from the filter function, sub in using the list
+def filter_on_tag():
+    # todo, add tag value passed by button to a list, filter the treeview based on list similar to search,
+    #  but will have to say for each world tag if tag in tag list then show else destroy?detach?
+    """if the search box is not empty it and
+            if e=True then refer to loaded worlds list, else use Archived worlds list in filter"""
+    e = True #todo, add this parameter to the buttons, true for loaded False for archived,
+            #prob create CONSTANTS for LOADED & ARCHIVED that can be used, these are becomming more common
+    # if search_text != '':
+    if len(tag_filter_list) > 0:
+        if e:
+            loaded_worlds = loaded_world_list   # maybe have this conditional on "e" loaded list for true
+                                                # else archived and delete the else part of the if block
+
+            #if intersection of world.tags list and tag_filter_list > 0 then keep world
+            filtered_worlds = list(filter(lambda world: len(set(tag_filter_list).intersection(world.tags)) > 0, loaded_worlds))
+
+            treeView.detach(*treeView.get_children())
+
+            for world in filtered_worlds:
+                treeView.insert('', 'end', text=world.name,
+                                value=(world.last_used,
+                                       world.created))
+
+        #todo change this so that the filter works for archived worlds, need to change the worlds.py to create
+        # world objects from archived worlds and use the same as loaded worlds
+
+        # else:
+        #     if not e:
+        #         print("searching archived")
+        #         archived_worlds = archived_worlds_list
+        #         search_matches = list(filter(lambda world: search_text in world[0].lower(), archived_worlds))
+        #         print(search_matches)
+        #
+        #         treeView.detach(*treeView.get_children())
+        #
+        #         for world in search_matches:
+        #             treeView.insert('', 'end', text=world[0],
+        #                             values=("na",
+        #                                     world[1]))
+    else:
+        treeView.detach(*treeView.get_children())
+        for world in loaded_world_list:
+            treeView.insert('', 'end', text=world.name,
+                            value=(world.last_used,
+                                   world.created))
+
+
+def add_tag_to_world(tag):
+    # rethinking how the buttons should work. depressing a button should filter the tree to those worlds with the tag,
+    # adding a tag will wait for now. tags will be generated by the level.dat values.
+    # adding a tag might have it's own menu/buttons
     print("adding tag",tag) #function seems to run on loading treeview, not on pushing button??
     """add a tag to the worlds selected in the treeview this take the tag button text, will create a params file
      with a list of tags if it doesn't exist or add to the file if it does exist"""
@@ -170,7 +241,7 @@ root = tk.Tk()
 canvas = tk.Canvas(root, height=500, width=1000, bg="#909696")
 canvas.pack()
 frame = tk.Frame(root, bg="#CDD5D5")
-frame.place(relwidth=0.95, relheight=0.7, relx=0.025, rely=0.2)
+frame.place(relwidth=0.95, relheight=0.7, relx=0.025, rely=0.25)
 print(frame.winfo_height())
 frame.update()
 canvas_in_frame = tk.Canvas(frame, width=frame.winfo_width(), height=frame.winfo_height(), bg="red")
@@ -196,12 +267,13 @@ treeView.pack(expand=True, fill='both')
 # treeview code stops
 
 # set up buttons for switching between loaded and archived worlds
-show_loadedWorlds_bt = tk.Button(root, text="Loaded", bg="grey", fg="black", width=6, command=showLoadedTree)
-show_archivedWorlds_bt = tk.Button(root, text="Archived", bg="grey", fg="black", width=6, command=showArchivedTree)
+# todo cleanup button generation, have a loop or something
+show_loadedWorlds_bt = tk.Button(root, text="Loaded", bg="grey", fg="black", width=8, height=2, command=showLoadedTree)
+show_archivedWorlds_bt = tk.Button(root, text="Archived", bg="grey", fg="black", width=8,height=2, command=showArchivedTree)
 show_loadedWorlds_bt.pack()
-show_loadedWorlds_bt.place(relx=0.1, rely=0.1)
+show_loadedWorlds_bt.place(relx=0.02, rely=0.01)
 show_archivedWorlds_bt.pack()
-show_archivedWorlds_bt.place(relx=0.2, rely=0.1)
+show_archivedWorlds_bt.place(relx=0.10, rely=0.01)
 
 # now to set up archiving and unarchiving buttons
 archive_worlds_bt = tk.Button(root, text="Archive Selected Worlds", wraplength=45, anchor='w', justify=tk.CENTER,
@@ -222,14 +294,14 @@ def loaded_search():
     search_box.bind("<FocusOut>", lambda event, loaded=True: search_focus_out(loaded))
     search_box.bind("<Key>", lambda event, loaded=True: filter_tree(loaded))
     search_box.pack()
-    search_box.place(relx=0.1, rely=0.15)
+    search_box.place(relx=0.02, rely=0.2)
 
 def archived_search():
     search_box.bind("<FocusIn>", search_focus_in)
     search_box.bind("<FocusOut>", lambda event, loaded=False: search_focus_out(loaded))
     search_box.bind("<Key>", lambda event, loaded=False: filter_tree(loaded))
     search_box.pack()
-    search_box.place(relx=0.1, rely=0.15)
+    search_box.place(relx=0.02, rely=0.2)
 
 def search_focus_in(e):
     search_box.delete('0', 'end')
