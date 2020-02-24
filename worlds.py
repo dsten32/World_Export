@@ -3,7 +3,7 @@ import re
 import os
 from os.path import isfile, join, getctime, getmtime
 from open_levelname import get_world_name, change_world_name
-from open_dat import get_lastPlayed
+from open_dat import get_lastPlayed, get_alltags
 import time
 from WorldClass import World
 
@@ -37,7 +37,10 @@ def getWorlds():
                             tags = [tag for tag in line[line.find('[')+1:line.find(']')].split(',')]
                             world_obj.tags.extend(tags)
                             # break
-
+			
+            # add level.dat values to world_obj tag list
+            world_obj.tags.extend(get_alltags(join(*[world_dirName, foldername])))
+            
             #todo add the world directory name as an instance variable, will use later for getting the image
             world_obj.dir = foldername
             world_list.append(world_obj)
@@ -68,6 +71,7 @@ def getWorlds():
 #
 # for arc in archived_worlds_list:
 #     print(arc)
+
 def getArchived():
     #todo get the last played date time from level.dat by reading zipfile
     level_name_file = "levelname.txt"
@@ -76,6 +80,8 @@ def getArchived():
     world_list = []
     archived_worlds_list = []
 
+	#todo open zipfile and read level.dat for tags and lastplayed as for get_worlds, also for the world icon image
+    # potentially turn into a world obj? would make gui more consistent between the two trees etc.
     for foldername in os.listdir(world_dirName):
         """gets the contents of the world dir and creates world objects
         need to make created and modified times to account for daylight savings"""

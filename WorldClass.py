@@ -24,7 +24,7 @@ class World:
         self.created_seconds = created
         self.modified = modified
         self.created = datetime.fromtimestamp(created).strftime("%Y-%m-%d %H:%M %p (%a %b %d %Y)") # time.asctime(time.gmtime(created))
-        self.last_used = datetime.fromtimestamp(modified).strftime("%Y-%m-%d %H:%M %p")# (%a %b %d %Y)") #time.asctime(time.gmtime(modified))
+        self.last_used = datetime.fromtimestamp(modified).strftime("%Y-%m-%d %H:%M %p (%a %b %d %Y)") #time.asctime(time.gmtime(modified))
 
 
     def add_tags(self,tag_list):

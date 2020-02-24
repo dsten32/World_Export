@@ -5,6 +5,11 @@ from os.path import join
 from worlds import getWorlds, getArchived
 import archive_world as aw
 
+#todo, turn this into a def, put all the gui setup into the __main__ and group the related functions, 
+# check if a mangaer_params.ini exists and if not prompt user for worldsave path and write to new file,
+# use this full path for all bits that need a path.
+# if exists, read path an use etc.
+
 # set up some useful variables to be used elsewhere:
 # list of loaded worlds
 loaded_world_list = getWorlds()
@@ -87,27 +92,31 @@ def add_tag(tag):
 
 
 def sort(treeView, col, reverse):
-    """sorts the treeview items by the contents of selected column header,
-    may need to change format of modified and used to be more like
-    2020-02-01 14:00 (Sat Feb 1 2:00pm)
-    so that sorting works as expected. will need to test"""
-
+    """sorts the treeview items by the contents of selected column header"""
+    print(col)
     itemlist = list(treeView.get_children(''))
-    print(itemlist)
     # itemlist.sort(reverse=reverse)
-    itemlist.sort(reverse=reverse)
-
+    # itemlist.sort(reverse=reverse)
     # get row values and sort on those not iids
     row_values = []
     for iid in itemlist:
-        row_values.append((iid, treeView.item(iid)['values'][0]))
+        if col == '#0':
+            row_values.append((iid, treeView.item(iid)['text']))
+        elif col == 'lastplayed':
+            row_values.append((iid, treeView.item(iid)['values'][0]))
+        elif col == 'created':
+            row_values.append((iid, treeView.item(iid)['values'][1]))
 
+        # rowdata = 'text' if col == '#0' else 'values'
+        # index = 0 if col == 'lastplayed' else 0 if col == '#0' else 1
+        # print('rowdata: ',rowdata,'index: ', index)
+        # print(treeView.item(iid)[rowdata][index])
+        # row_values.append((iid, treeView.item(iid)[rowdata][index]))
+
+    # performing sort on row valuse
     sortedlist = sorted(row_values, key=lambda row: row[1], reverse=reverse)
-    print(sortedlist)
-    print(date_pl)
-    for index, iid in enumerate(itemlist):
-        print(index, iid, treeView.parent(iid))
-        treeView.move(iid, treeView.parent(iid), index)
+    for index, iid in enumerate(sortedlist):
+        treeView.move(iid[0], treeView.parent(iid[0]), index)
 
     # re-set heading so that next click will reverse the order
     treeView.heading(col, command=lambda: sort(treeView, col, not reverse))
@@ -158,7 +167,7 @@ def restore_worlds():
 
 
 root = tk.Tk()
-canvas = tk.Canvas(root, height=700, width=600, bg="#909696")
+canvas = tk.Canvas(root, height=500, width=1000, bg="#909696")
 canvas.pack()
 frame = tk.Frame(root, bg="#CDD5D5")
 frame.place(relwidth=0.95, relheight=0.7, relx=0.025, rely=0.2)
@@ -169,14 +178,19 @@ canvas_in_frame.pack()
 
 
 # treeview code starts
-treeView = ttk.Treeview(canvas_in_frame, columns=["lastplayed", "created"], selectmode='extended')
-treeView.heading('#0', text='Name', command=lambda: sort(treeView, '#0', False))
-treeView.heading('lastplayed', text='Last Played Date', anchor='e', command=lambda: sort(treeView, 'lastplayed', False))
-treeView.heading('created', text='Created Date', anchor='e', command=lambda: sort(treeView, 'created', False))
+treeView = ttk.Treeview(canvas_in_frame, height=30, columns=["lastplayed", "created"], selectmode='extended')
+vsb = ttk.Scrollbar(canvas_in_frame, orient="vertical", command=treeView.yview)
+vsb.pack(side='right', fill='y')
+treeView.configure(yscrollcommand=vsb.set)
 
-treeView.column('#0', stretch=True, width=int(frame.winfo_width()*0.5))
-treeView.column('lastplayed', width=int(frame.winfo_width()*0.25))
-treeView.column('created', width=int(frame.winfo_width()*0.25))
+treeView.heading('#0', text='Name', anchor='w'
+                 , command=lambda: sort(treeView, '#0', False))
+treeView.heading('lastplayed', text='Last Played Date', anchor='w', command=lambda: sort(treeView, 'lastplayed', False))
+treeView.heading('created', text='Created Date', anchor='w', command=lambda: sort(treeView, 'created', False))
+
+treeView.column('#0', stretch=True, width=int(frame.winfo_width()*0.4))
+treeView.column('lastplayed', width=int(frame.winfo_width()*0.3))
+treeView.column('created', width=int(frame.winfo_width()*0.3))
 treeView.bind('<<TreeviewSelect>>', on_select)
 treeView.pack(expand=True, fill='both')
 # treeview code stops
