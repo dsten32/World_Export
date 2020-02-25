@@ -20,10 +20,16 @@ archived_worlds_list = getArchived()
 
 #methods for treeview
 def showLoadedTree():
+    #deactivate the restore worlds button
+    restore_worlds_bt.config(relief='sunken', state='disabled')
+    archive_worlds_bt.config(relief='raised', state='normal')
+    show_loadedWorlds_bt.config(relief='sunken')
+    show_archivedWorlds_bt.config(relief='raised')
+    #set up the search bar for loaded worlds
     loaded_search()
+    #set up the world tags list prior to fetching the tags from world dir ini files
     world_tags = []
     treeView.delete(*treeView.get_children())
-    # loaded_worlds = loaded_world_list
     loaded_worlds = getWorlds()
     for world in loaded_worlds:
         world_tags.extend(world.tags)
@@ -53,6 +59,11 @@ def showLoadedTree():
 
 
 def showArchivedTree():
+    # deactivate archive worlds button and activate restore button
+    archive_worlds_bt.config(relief='sunken', state='disabled')
+    restore_worlds_bt.config(relief='raised', state='normal')
+    show_loadedWorlds_bt.config(relief='raised')
+    show_archivedWorlds_bt.config(relief='sunken')
     #todo change created date header to archived date
     archived_search()
     treeView.delete(*treeView.get_children())
@@ -86,6 +97,7 @@ def filter_on_tag():
     e = True #todo, add this parameter to the buttons, true for loaded False for archived,
             #prob create CONSTANTS for LOADED & ARCHIVED that can be used, these are becomming more common
     # if search_text != '':
+    print(tag_filter_list)
     if len(tag_filter_list) > 0:
         if e:
             loaded_worlds = loaded_world_list   # maybe have this conditional on "e" loaded list for true
@@ -225,9 +237,9 @@ def restore_worlds():
     selected_archived_world_ids = treeView.selection()  # gives item IDs of all selected in a tuple, eg ('I001', 'I002')
 
     # on row select get the row item and return the name of the world
-    for worldid in selected_archived_world_ids:
-        print("worldid:", worldid)
-        selected_world_name = treeView.item(worldid)['text']  # gives "#0' text ie AdventureWorld
+    for world_iid in selected_archived_world_ids:
+        print("worldid:", world_iid)
+        selected_world_name = treeView.item(world_iid)['text']  # gives "#0' text ie AdventureWorld
         print("restoring world:", selected_world_name)
         aw.restore_world(selected_world_name)
 
