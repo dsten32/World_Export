@@ -5,7 +5,6 @@ from datetime import datetime
 import zipfile
 
 # print(datContent)
-#todo refactor to combine the last played and tags functions to get same behaviour as the archived_level_data func
 def get_loaded_level_data(path):
     """path provided is full path to worlds dir + world archive name. open level.dat and do searches
         for level last played and  all tags, return tuple of levelname, timestamp and list of tags
@@ -57,7 +56,7 @@ def get_loaded_level_data(path):
 
         # print("all together now:", list((experimental_tag, gametype_tag, multiplayer_tag, pvp_tag)))
         # return list of tags after filtering Nones
-        print(level_name, timestamp, list(filter(None, list((experimental_tag, gametype_tag, multiplayer_tag, pvp_tag)))))
+        # print(level_name, timestamp, list(filter(None, list((experimental_tag, gametype_tag, multiplayer_tag, pvp_tag)))))
     return level_name, timestamp, list(filter(None, list((experimental_tag, gametype_tag, multiplayer_tag, pvp_tag))))
 
 
@@ -122,14 +121,13 @@ def get_alltags(path):
     return list(filter(None, list((experimental_tag, gametype_tag, multiplayer_tag, pvp_tag))))
 
 def get_archived_level_data(path):
-    #todo, change the worlds.py to use this function in creating list of archived worlds, then integrate into treeview load for archived worlds
     """path provided is full path to worlds dir + world archive name open level.dat and do searches
     for level last played and  all tags, return tuple of levelname, timestamp and list of tags
     ie (timestamp, [tags])"""
     #open archive and read levelname.txt
     archive = zipfile.ZipFile(path, 'r')
     world_dir = re.split("/|.mcworld", path)[-2]  #.split('.mcworld')[-2]
-    print("the thing:", world_dir)
+    # print("the thing:", world_dir)
     level_name = re.sub('Â§.', '', str(archive.read((world_dir + "/levelname.txt")).decode('utf-8'))) #+ "/" + world_dir
 
     #open level.dat, find the 4 chars after LastPlayed and convert to datetime
@@ -146,21 +144,21 @@ def get_archived_level_data(path):
     # get experimental tag hex value, via strip \x off left side and casting to int using base 16
     is_experimental_hex = re.search(r'(?<=experimentalgameplay).{4}', level_dat).group(0)
     is_experimental = int(is_experimental_hex.lstrip('\\x'), 16)
-    print("what type?", type(is_experimental))
+    # print("what type?", type(is_experimental))
     experimental_tag = "Experimental" if is_experimental == 1 else None
-    print("from "+path+" got experimental value:", experimental_tag)
+    # print("from "+path+" got experimental value:", experimental_tag)
 
     # get gametype tag hex value, via strip \x off left side and casting to int using base 16
     game_type_hex = re.search(r'(?<=GameType).{4}', level_dat).group(0)
     gametype = int(game_type_hex.lstrip('\\x'), 16)
     gametype_tag = "Survival" if gametype == 0 else "creative" if gametype == 1 else "adventure" if gametype == 2 else None
-    print("from "+path+" got gametype value:", gametype_tag)
+    # print("from "+Image.ANTIALIASpath+" got gametype value:", gametype_tag)
 
     # get multiplayer tag hex value, via strip \x off left side and casting to int using base 16
     multiplayer_hex = re.search(r'(?<=MultiplayerGame).{4}', level_dat).group(0)
     multiplayer = int(multiplayer_hex.lstrip('\\x'), 16)
     multiplayer_tag = "Multiplayer" if multiplayer == 1 else None
-    print("from "+path+" got multiplayer value:", multiplayer_tag)
+    # print("from "+path+" got multiplayer value:", multiplayer_tag)
 
     pvp_hex = re.search(r'(?<=pvp).{4}', level_dat).group(0)
     pvp = int(pvp_hex.lstrip('\\x'), 16)

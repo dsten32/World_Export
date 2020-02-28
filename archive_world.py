@@ -14,7 +14,7 @@ def archive_world(world_name):
     #todo should change this so that the user's worlds folder in saved in some sort of persistence and then use full path
     if not os.getcwd().split('\\')[-1] == world_dirName:
         os.chdir(world_dirName)
-    print("Starting archiving")
+    # print("Starting archiving")
 
     # changing so that the function checks the world name provided by the gui,
     # if the path to the levelname.txt checks out then continue,
@@ -23,7 +23,7 @@ def archive_world(world_name):
     # one file to open and read instead of hundreds.
     # original_world_name = ''
     if exists(join(world_name, "levelname.txt")):
-        print("world found:", join(world_name, "levelname.txt"))
+        # print("world found:", join(world_name, "levelname.txt"))
         # get world name from levelname.txt, remove '§.' modifiers and compare to world to archive
         original_world_name = get_world_name(join(world_name, "levelname.txt"))
         world_name = re.sub('Â§.|§.', '', original_world_name)
@@ -33,23 +33,23 @@ def archive_world(world_name):
         if exists(world_path + ".mcworld"):
             while exists(world_path + ".mcworld"):
                 if re.search('\(\d\)', world_path):  # == "world (3).mcworld":
-                    print("result of regex:", re.search('(\()(\d)(\))', world_path).group(2))
+                    # print("result of regex:", re.search('(\()(\d)(\))', world_path).group(2))
 
                     world_path = re.sub(re.search('\(\d\)', world_path).group(0),
                                         str(int(re.search('(\()(\d)(\))', world_path).group(2)) + 1), world_path)
 
                     original_world_name = re.sub(re.search('\(\d\)', original_world_name).group(0),
                                         str(int(re.search('(\()(\d)(\))', original_world_name).group(2)) + 1), original_world_name)
-                    print("after search and replace:", world_path)
+                    # print("after search and replace:", world_path)
                 else:
                     world_path += " (1)"
                     original_world_name += " (1)"
 
         # rename dir to account for existing archived worlds with same name
         os.rename(world_name, world_path)
-        print(join(world_path + "\levelname.txt"))
+        # print(join(world_path + "\levelname.txt"))
         # update world name in levelname.txt
-        print(exists(world_path + "\levelname.txt"))
+        # print(exists(world_path + "\levelname.txt"))
         with open(world_path + "\levelname.txt", 'w') as f:
             updated_world_name = original_world_name
             f.write(updated_world_name)
@@ -62,7 +62,7 @@ def archive_world(world_name):
                     # Add file to zip
                     world_archive.write(filePath)
         # delete world folder after creating zipped file
-        print(world_path)
+        # print(world_path)
         shutil.rmtree(world_path)
     else:
         for foldername in os.listdir():
@@ -77,7 +77,6 @@ def archive_world(world_name):
                            for filename in filenames:
                                #create complete filepath of file in directory
                                filePath = os.path.join(folderName,filename)
-                               print("file:",filePath)
                                # Add file to zip
                                world_archive.write(filePath)
 
@@ -94,20 +93,17 @@ def restore_world(world):
     if exists(world_dir):
         while exists(world_dir):
             if re.search('\(\d\)', world_dir):  # == "world (3).mcworld":
-                print("result of regex:", re.search('(\()(\d)(\))', world_dir).group(2))
+                # print("result of regex:", re.search('(\()(\d)(\))', world_dir).group(2))
 
                 world_dir = re.sub(re.search('\(\d\)', world_dir).group(0),
                                     str(int(re.search('(\()(\d)(\))', world_dir).group(2)) + 1), world_dir)
-                print("after search and replace:", world_dir)
+                # print("after search and replace:", world_dir)
             else:
                 world_dir += " (1)"
 
     if not exists("temp"):
         os.mkdir("temp")
     #-------------------
-    #todo, rename folder in zipfile to world_dir, then extract else will
-    # overwrite the world we've just determined already exists
-    # strategy: unzip to temp folder, rename, then move to main folder and delete temp folder
     with ZipFile(world + ".mcworld", 'r') as zippy:
         zippy.extractall(path="temp")
 
