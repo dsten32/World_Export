@@ -11,7 +11,8 @@ from worlds import world_dirName
 
 def archive_world(world_name):
     # check if we are in the worlds folder
-    #todo should change this so that the user's worlds folder in saved in some sort of persistence and then use full path
+    #todo should change this so that the user's path to worlds folder in saved in some sort of
+    # persistence and then use full path
     if not os.getcwd().split('\\')[-1] == world_dirName:
         os.chdir(world_dirName)
     # print("Starting archiving")
