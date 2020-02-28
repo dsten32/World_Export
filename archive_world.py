@@ -26,7 +26,7 @@ def archive_world(world_name):
         print("world found:", join(world_name, "levelname.txt"))
         # get world name from levelname.txt, remove '§.' modifiers and compare to world to archive
         original_world_name = get_world_name(join(world_name, "levelname.txt"))
-        world_name = re.sub('Â§.', '', original_world_name)
+        world_name = re.sub('Â§.|§.', '', original_world_name)
         world_path = world_name
         # os.rename(join(world_dirName,world_dir),join(world_dirName,world_name))
         # look to see if archived world with same name exists
@@ -102,11 +102,23 @@ def restore_world(world):
             else:
                 world_dir += " (1)"
 
+    if not exists("temp"):
+        os.mkdir("temp")
     #-------------------
     #todo, rename folder in zipfile to world_dir, then extract else will
     # overwrite the world we've just determined already exists
+    # strategy: unzip to temp folder, rename, then move to main folder and delete temp folder
     with ZipFile(world + ".mcworld", 'r') as zippy:
-        zippy.extractall()
+        zippy.extractall(path="temp")
 
+    with open("temp\\" + world + "\levelname.txt", 'w') as f:
+        updated_world_name = world_dir
+        f.write(updated_world_name)
+
+    # os.rename("temp\\" + world + ".mcworld","temp\\" + world_dir + ".mcworld" )
+    shutil.move("temp\\" + world, world_dir)
     os.remove(world + ".mcworld")
+    shutil.rmtree("temp")
+
+
 

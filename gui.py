@@ -70,9 +70,13 @@ def showArchivedTree():
     # archived_worlds = archived_worlds_list
     archived_worlds = getArchived()
     for world in archived_worlds:
-        treeView.insert('', 'end', text=world[0],
-                        values=("na",
-                                world[1]))
+        #todo get the world image and add to the row, didn't seem to work last time. need to convert file to gif?
+        # icon = tk.PhotoImage(file=join(*['minecraft_worlds', world.dir, 'world_icon.gif']))
+        # print(icon)
+        treeView.insert('', 'end', text=world.name,
+                        value=(world.last_used,
+                                world.created))
+
 
 def add_tag_to_filter_list(button):
     """intended to add the tag for the pressed button to the list, then call filter def?"""
